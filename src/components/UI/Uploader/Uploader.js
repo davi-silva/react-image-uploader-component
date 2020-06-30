@@ -4,12 +4,18 @@ import { useDropzone } from 'react-dropzone';
 import { uniqueId } from 'lodash';
 import filesize from 'filesize';
 
-import {
-  Wrapper,
-} from '../../../styles/Components/UI/Uploader/Uploader';
+import { Wrapper } from '../../../styles/Components/UI/Uploader/Uploader';
 
 const Uploader = (props) => {
-  const { width, height, isDragAcceptColor, isDragNotAcceptColor, isDragRejectColor, handleSetImagesArray, multipleFiles } = props;
+  const {
+    width,
+    height,
+    isDragAcceptColor,
+    isDragNotAcceptColor,
+    isDragRejectColor,
+    handleSetImagesArray,
+    multipleFiles,
+  } = props;
 
   const createImageObj = (file) => {
     return {
@@ -25,17 +31,20 @@ const Uploader = (props) => {
     };
   };
 
-  const onDrop = useCallback((acceptedFiles) => {
-    let blobArray = [];
-    if (multipleFiles) {
-      acceptedFiles.forEach((file) => {
-        blobArray.push(createImageObj(file));
-      });
-    } else {
-      blobArray.push(createImageObj(acceptedFiles[0]));
-    }
-    handleSetImagesArray(blobArray)
-  }, [handleSetImagesArray, multipleFiles]);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      let blobArray = [];
+      if (multipleFiles) {
+        acceptedFiles.forEach((file) => {
+          blobArray.push(createImageObj(file));
+        });
+      } else {
+        blobArray.push(createImageObj(acceptedFiles[0]));
+      }
+      handleSetImagesArray(blobArray);
+    },
+    [handleSetImagesArray, multipleFiles]
+  );
 
   const {
     getRootProps,
@@ -61,7 +70,10 @@ const Uploader = (props) => {
         {isDragActive ? (
           <p>Drop the images / videos here ...</p>
         ) : (
-          <p>Drag 'n' drop some images / videos here, or click to select images / videos</p>
+          <p>
+            Drag 'n' drop some images / videos here, or click to select images /
+            videos
+          </p>
         )}
         {props.children}
       </Wrapper>

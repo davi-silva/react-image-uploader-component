@@ -1,28 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import UploaderWrapper from '../components/UI/Uploader/UploaderWrapper'
+import React, { useState, useRef } from 'react';
+import UploaderWrapper from '../components/UI/Uploader/UploaderWrapper';
 
 const Home = () => {
   const [imagesArray, setImagesArray] = useState([]);
-
-  useEffect(() => {
-    console.log(imagesArray)
-  }, [imagesArray]);
 
   const handleSetImagesArray = (images) => {
     setImagesArray(images);
   };
 
-  // const handleDeleteImage = async (index) => {
-  //   const tempImagesArray = [...imagesArray];
-  //   tempImagesArray.splice(index, 1)
-  //   setImagesArray(tempImagesArray);
-  // }
-
-
+  const childRef = useRef();
 
   return (
     <div>
       <UploaderWrapper
+        ref={childRef}
         width='450px'
         height='450px'
         imagesArray={imagesArray}
@@ -31,7 +22,17 @@ const Home = () => {
         isDragAcceptColor='#18840f'
         isDragRejectColor='#ff0000'
         multipleFiles={true}
+        apiEndpoint='http://localhost:5000/admin/products/publish/media'
       />
+      {imagesArray.length > 0 && (
+        <button
+          onClick={() => {
+            childRef.current.handleStartUploadingFiles();
+          }}
+        >
+          Upload
+        </button>
+      )}
     </div>
   );
 };
